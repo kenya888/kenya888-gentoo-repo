@@ -4,7 +4,7 @@
 
 EAPI=5
 
-STUPID_NUM="4111"
+STUPID_NUM="4132"
 
 inherit eutils toolchain-funcs udev autotools-utils
 
