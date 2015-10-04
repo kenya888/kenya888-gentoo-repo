@@ -64,8 +64,6 @@ src_prepare() {
 			contrib/organize/boost.mk || die
 	fi
 
-	epatch "${FILESDIR}/${PN}-0.24-python3.patch"
-
 	# set locale to safe value for the sed commands (bug #382731)
 	sed -i -r "s,(\s+)sed\s,\1LC_ALL="C" sed ,g" src/Makefile || die
 
