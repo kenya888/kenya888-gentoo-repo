@@ -5,7 +5,7 @@
 EAPI=5
 
 EGIT_BRANCH=master
-EGIT_REPO_URI="git://anongit.freedesktop.org/xorg/driver/xf86-video-intel"
+EGIT_REPO_URI="http://anongit.freedesktop.org/git/xorg/driver/xf86-video-intel"
 XORG_DRI=dri
 inherit linux-info xorg-2 git-2
 
