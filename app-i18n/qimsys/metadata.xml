@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>cjk</herd>
+	<maintainer>
+		<email>kenya888@gmail.com</email>
+		<name>Takahiro Hashimoto</name>
+	</maintainer>
+	<longdescription lang="en">
+	  qimsys is is Qt based input method system for Linux. Currently Only Japanese
+	  input is supported. Supported input method engines are Anthy, SocialIME.
+	  Though it is written with Qt, it can be used for X11, gtk+, and of cource, Qt
+	  based applications.
+	</longdescription>
+	<use>
+	  <flag name='X'>Enable support for xim.
+	    </flag>
+	  <flag name='gtk'>Enable support for <pkg>x11-libs/gtk+:2</pkg> based application.
+	    </flag>
+	  <flag name='gtk3'>Enable support for <pkg>x11-libs/gtk+:3</pkg> based application.
+	    </flag>
+	  <flag name='anthy'>Use anthy support as input method engine
+	    </flag>
+	  <flag name='socialime'>Use Social IME support as a input method engine
+	    </flag>
+	  <flag name='googleime'>Use Google CGI API for Japanese Input support as a input method engine
+	    </flag>
+	  <flag name='sdk'>Files for develop qimsys
+	    </flag>
+	  <flag name='examples'>Example apps for qimsys
+	    </flag>
+	  <flag name='tests'>Test tools for qimsys
+	    </flag>
+	</use>
+</pkgmetadata>
