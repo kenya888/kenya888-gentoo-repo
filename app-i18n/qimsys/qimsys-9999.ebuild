@@ -99,14 +99,6 @@ src_configure() {
 	${conflist}
 }
 
-src_compile() {
-	emake || die "make failed"
-}
-
-src_install() {
-	emake INSTALL_ROOT=${D} install || die "install failed"
-}
-
 pkg_postinst() {
 	use gtk && gnome2_query_immodules_gtk2
 	use gtk3 && gnome2_query_immodules_gtk3
