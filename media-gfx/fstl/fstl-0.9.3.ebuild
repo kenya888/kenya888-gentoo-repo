@@ -4,6 +4,7 @@
 EAPI=6
 SLOT="0"
 DESCRIPTION="The fastest STL file viewer"
+HOMEPAGE="http://www.mattkeeter.com/projects/fstl"
 KEYWORDS="~amd64 ~x86"
 IUSE="debug"
 LICENSE="MIT"
