@@ -14,28 +14,28 @@ case ${PV} in
     9999)
     EGIT_REPO_URI="https://github.com/mkeeter/${PN}.git"
     EGIT_BRANCH="master"
-	BUILD_TYPE="live"
-	inherit git-r3
+    BUILD_TYPE="live"
+    inherit git-r3
     ;;
     *)
-	SRC_URI="https://github.com/mkeeter/${PN}/archive/v${PV}.tar.gz"
-	BUILD_TYPE="release"
-	;;
+    SRC_URI="https://github.com/mkeeter/${PN}/archive/v${PV}.tar.gz"
+    BUILD_TYPE="release"
+    ;;
 esac
 
 RDEPEND="
-	dev-qt/qtcore
-	dev-qt/qtgui
-	dev-qt/qtopengl
-	dev-qt/qtwidgets
+    dev-qt/qtcore
+    dev-qt/qtgui
+    dev-qt/qtopengl
+    dev-qt/qtwidgets
 "
 DEPEND="
-	${RDEPEND}
+    ${RDEPEND}
 "
 
 src_unpack() {
     case ${BUILD_TYPE} in
-	    live) git-r3_src_unpack ;;
-		release) default ;;
-	esac
+        live) git-r3_src_unpack ;;
+        release) default ;;
+    esac
 }
