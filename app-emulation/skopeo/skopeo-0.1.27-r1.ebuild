@@ -3,7 +3,7 @@
 
 EAPI=6
 EGO_PN=github.com/projectatomic/skopeo
-COMMIT=5d24b67
+COMMIT=93876ac
 inherit golang-vcs-snapshot
 
 DESCRIPTION="Command line utility foroperations on container images and image repositories"
