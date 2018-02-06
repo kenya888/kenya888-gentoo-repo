@@ -23,7 +23,7 @@ fi
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="btrfs lvm "
+IUSE="+btrfs +lvm"
 REQUIRED_USE="|| ( btrfs lvm )"
 
 COMMON_DEPEND=">=app-crypt/gpgme-1.5.5:=
