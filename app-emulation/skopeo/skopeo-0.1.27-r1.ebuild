@@ -23,17 +23,20 @@ fi
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
+IUSE="btrfs lvm "
+REQUIRED_USE="|| ( btrfs lvm )"
 
 COMMON_DEPEND=">=app-crypt/gpgme-1.5.5:=
 	>=dev-libs/libassuan-2.4.3
-	>=sys-fs/btrfs-progs-4.0.1
-	>=sys-fs/lvm2-2.02.145
+	btrfs? ( >=sys-fs/btrfs-progs-4.0.1 )
+	lvm? ( >=sys-fs/lvm2-2.02.145 )
 "
 DEPEND="${COMMON_DEPEND}
 	dev-go/go-md2man
 "
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="${COMMON_DEPEND}
+	app-emulation/containers-storage
+"
 
 PATCHES=
 
