@@ -22,7 +22,6 @@ fi
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64"
 
 # currently no choice if selinux and ostree enabled or not by USE flag, they are disabled.
 IUSE="btrfs +lvm +seccomp"
