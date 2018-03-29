@@ -3,13 +3,14 @@
 
 EAPI=6
 EGO_PN=github.com/projectatomic/buildah
-COMMIT=6bad262
+COMMIT=e073df1
 inherit golang-vcs-snapshot
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
 
 DESCRIPTION="A tool which facilitates building OCI images"
 HOMEPAGE="https://github.com/projectatomic/buildah"
+KEYWORDS=""
 
 if [[ ${PV} == *9999* ]]; then
     EGIT_REPO_URI="${HOMEPAGE}.git"
