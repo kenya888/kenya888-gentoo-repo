@@ -3,7 +3,7 @@
 
 EAPI=6
 EGO_PN=github.com/kubernetes-incubator/cri-o
-COMMIT=8723732
+COMMIT=e2bb6aaa7931607820b85b8020f47d19efb4e0a3
 inherit golang-vcs-snapshot toolchain-funcs
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
@@ -37,7 +37,7 @@ RESTRICT="test"
 src_compile() {
 
 	if [[ ${PV} == *9999* ]]; then
-        COMMIT="$(git rev-parse --short HEAD)"
+        COMMIT="$(git rev-parse HEAD)"
     fi
 
 	local BUILD_INFO="$(date +%s)"
