@@ -10,6 +10,7 @@ S="${WORKDIR}/${P}/src/${EGO_PN}"
 
 DESCRIPTION="A Go library which aims to provide methods for storing filesystem layers, container images, and containers. A containers-storage"
 HOMEPAGE="https://github.com/containers/storage"
+KEYWORDS=""
 
 if [[ ${PV} == *9999* ]]; then
 	EGIT_REPO_URI="${HOMEPAGE}.git"
