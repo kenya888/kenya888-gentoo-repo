@@ -3,13 +3,14 @@
 
 EAPI=6
 EGO_PN=github.com/projectatomic/skopeo
-COMMIT=93876ac
+COMMIT=0270e56
 inherit golang-vcs-snapshot
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
 
 DESCRIPTION="Command line utility foroperations on container images and image repositories"
 HOMEPAGE="https://github.com/projectatomic/skopeo"
+KEYWORDS=""
 
 if [[ ${PV} == *9999* ]]; then
 	EGIT_REPO_URI="${HOMEPAGE}.git"
