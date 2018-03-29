@@ -61,6 +61,6 @@ src_compile() {
 }
 
 src_install() {
-	exeinto /usr/libexec/crio/conmon
+	exeinto /usr/libexec/crio
 	doexe conmon/conmon
 }
