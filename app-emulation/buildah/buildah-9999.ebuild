@@ -41,7 +41,7 @@ dev-libs/glib
 "
 RDEPEND="${COMMON_DEPEND}
 app-emulation/skopeo
-seccomp? ( app-emulation/runc[seccomp?] )
+app-emulation/runc[seccomp?]
 "
 
 PATCHES=
