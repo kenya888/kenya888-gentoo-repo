@@ -24,16 +24,16 @@ fi
 LICENSE="Apache-2.0"
 SLOT="0"
 
-# currently no choice if selinux and ostree enabled or not by USE flag, they are disabled.
-IUSE="btrfs +lvm +seccomp"
-#IUSE="btrfs lvm +seccomp +doc selinux ostree"
+# currently no choice if ostree enabled or not by USE flag, they are disabled.
+IUSE="btrfs +lvm +seccomp selinux"
 REQUIRED_USE="|| ( btrfs lvm )"
 
 COMMON_DEPEND=">=app-crypt/gpgme-1.8.0:=
 	>=dev-libs/libassuan-2.4.3
 	btrfs? ( >=sys-fs/btrfs-progs-4.10.2 )
 	lvm? ( >=sys-fs/lvm2-2.02.145-r2 )
-    seccomp? ( sys-libs/libseccomp )
+	seccomp? ( sys-libs/libseccomp )
+	selinux? ( sys-libs/libselinux )
 "
 DEPEND="${COMMON_DEPEND}
 dev-go/go-md2man
@@ -60,9 +60,12 @@ src_compile() {
 	if use seccomp ; then
 		BUILDTAGS="${BUILDTAGS} seccomp"
 	fi
+	if use selinux ; then
+		BUILDTAGS="${BUILDTAGS} selinux"
+	fi
 	if [[ ${PV} == *9999* ]]; then
         COMMIT="$(git rev-parse --short HEAD)"
-    fi
+	fi
 	set -- env GOPATH="${WORKDIR}/${P}" \
 		go build -ldflags "-X main.gitCommit=${COMMIT}" \
 		-gcflags "${GOGCFLAGS}" -tags "${BUILDTAGS}" \
@@ -77,6 +80,6 @@ src_compile() {
 
 src_install() {
 	dobin buildah
-    doman docs/*.1
+	doman docs/*.1
 	einstalldocs
 }

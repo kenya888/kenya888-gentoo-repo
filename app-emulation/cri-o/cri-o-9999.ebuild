@@ -24,16 +24,16 @@ fi
 LICENSE="Apache-2.0"
 SLOT="0"
 
-# currently no choice if selinux and ostree enabled or not by USE flag, they are disabled.
-IUSE="btrfs +lvm +seccomp"
-#IUSE="btrfs lvm +seccomp +doc selinux ostree"
+# currently no choice if ostree enabled or not by USE flag, they are disabled.
+IUSE="btrfs +lvm +seccomp selinux"
 REQUIRED_USE="|| ( btrfs lvm )"
 
 COMMON_DEPEND=">=app-crypt/gpgme-1.8.0:=
 	>=dev-libs/libassuan-2.4.3
 	btrfs? ( >=sys-fs/btrfs-progs-4.10.2 )
 	lvm? ( >=sys-fs/lvm2-2.02.145-r2 )
-    seccomp? ( sys-libs/libseccomp )
+	seccomp? ( sys-libs/libseccomp )
+	selinux? ( sys-libs/libselinux )
 "
 DEPEND="${COMMON_DEPEND}
 dev-go/go-md2man
@@ -56,17 +56,9 @@ PATCHES=(
 RESTRICT="test"
 
 src_compile() {
-
-	if [[ ${PV} == *9999* ]]; then
-        COMMIT="$(git rev-parse HEAD)"
-    fi
-
-	local BUILD_INFO="$(date +%s)"
     local BUILDTAGS="containers_image_ostree_stub"
+	local BUILD_INFO="$(date +%s)"
 
-    if use seccomp ; then
-		BUILDTAGS="${BUILDTAGS} seccomp"
-	fi
 	if ! use btrfs ; then
 	    BUILDTAGS="${BUILDTAGS} exclude_graphdriver_btrfs"
 	fi
@@ -74,27 +66,39 @@ src_compile() {
 		BUILDTAGS="${BUILDTAGS} exclude_graphdriver_devicemapper"
 	fi
 
+	if use seccomp ; then
+		BUILDTAGS="${BUILDTAGS} seccomp"
+	fi
+
+	if use selinux ; then
+		BUILDTAGS="${BUILDTAGS} selinux"
+	fi
+
+	if [[ ${PV} == *9999* ]]; then
+		COMMIT="$(git rev-parse HEAD)"
+	fi
+
 	set -- env GOPATH="${WORKDIR}/${P}" \
 		go build -i -gcflags "${CGOCFLAGS}" -ldflags "-X main.buildInfo=${BUILD_INFO} -X main.gitCommit=${COMMIT}" -tags "${BUILDTAGS}" \
 		-o crio ./cmd/crio
 
-    echo "$@"
+	echo "$@"
 	"$@" || die
 
-    ${S}/crio --config="" \
+	${S}/crio --config="" \
 	--cgroup-manager cgroupfs --conmon /usr/libexec/crio/conmon \
 	config > crio.conf
 
 	local GIT_COMMIT=${COMMIT}
 	local VERSION="$(sed -n -e 's/^const Version = "\([^"]*\)"/\1/p' version/version.go)"
 	local CFLAGS="${CFLAGS} $(pkg-config --cflags glib-2.0) -DVERSION=\"${VERSION}\" -DGIT_COMMIT=\"${GIT_COMMIT}\""
-    local LIB="$(pkg-config --libs glib-2.0)"
-    $(tc-getCC) -o ${S}/pause/pause ${S}/pause/pause.c ${CFLAGS} "${LIB}" || die
+	local LIB="$(pkg-config --libs glib-2.0)"
+	$(tc-getCC) -o ${S}/pause/pause ${S}/pause/pause.c ${CFLAGS} "${LIB}" || die
 
 	cd docs
 	for f in *.md; do
-        go-md2man -in ${f} -out ${f%%.md} || die
-    done
+		go-md2man -in ${f} -out ${f%%.md} || die
+	done
 }
 
 src_install() {

@@ -24,9 +24,8 @@ fi
 LICENSE="Apache-2.0"
 SLOT="0"
 
-# currently no choice if selinux and ostree enabled or not by USE flag, they are disabled.
-IUSE="btrfs +lvm +seccomp"
-#IUSE="btrfs lvm +seccomp +doc selinux ostree"
+# currently no choice if ostree enabled or not by USE flag, they are disabled.
+IUSE="btrfs +lvm +seccomp selinux"
 REQUIRED_USE="|| ( btrfs lvm )"
 
 COMMON_DEPEND=">=app-crypt/gpgme-1.8.0:=
@@ -34,6 +33,7 @@ COMMON_DEPEND=">=app-crypt/gpgme-1.8.0:=
 	btrfs? ( >=sys-fs/btrfs-progs-4.10.2 )
 	lvm? ( >=sys-fs/lvm2-2.02.145-r2 )
     seccomp? ( sys-libs/libseccomp )
+	selinux? ( sys-libs/libselinux )
 "
 DEPEND="${COMMON_DEPEND}
 dev-go/go-md2man
@@ -55,9 +55,9 @@ PATCHES=
 RESTRICT="test"
 
 src_compile() {
-
-	local BUILD_INFO="$(date +%s)"
 	local BUILDTAGS="containers_image_ostree_stub"
+	local BUILD_INFO="$(date +%s)"
+
 	if ! use btrfs ; then
 		BUILDTAGS="${BUILDTAGS} exclude_graphdriver_btrfs"
 	fi
@@ -66,6 +66,9 @@ src_compile() {
 	fi
 	if use seccomp ; then
 		BUILDTAGS="${BUILDTAGS} seccomp"
+	fi
+	if use selinux ; then
+		BUILDTAGS="${BUILDTAGS} selinux"
 	fi
 	if [[ ${PV} == *9999* ]]; then
         COMMIT="$(git rev-parse --short HEAD)"
@@ -92,6 +95,6 @@ src_install() {
 	insinto /etc/cni/net.d
 	doins cni/87-podman-bridge.conflist
 	dobashcomp completions/bash/podman
-    doman docs/*.1
+	doman docs/*.1
 	einstalldocs
 }
