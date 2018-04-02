@@ -45,7 +45,7 @@ python_compile() {
 python_install() {
 	distutils-r1_python_install
 	insinto /etc/containers
-	doins registries.conf
+	newins registries.fedora registries.conf
     doman docs/*.1
 	einstalldocs
 }
