@@ -3,7 +3,7 @@
 
 EAPI=6
 EGO_PN=github.com/projectatomic/buildah
-COMMIT=e073df1
+COMMIT=82529cd
 inherit golang-vcs-snapshot
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
@@ -44,8 +44,9 @@ app-emulation/skopeo
 app-emulation/runc[seccomp?]
 "
 
-PATCHES=
-
+PATCHES=(
+       "${FILESDIR}"/01_selinuxwomcs.patch
+)
 
 RESTRICT="test"
 
