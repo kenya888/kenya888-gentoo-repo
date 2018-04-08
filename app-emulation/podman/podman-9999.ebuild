@@ -13,12 +13,12 @@ HOMEPAGE="https://github.com/projectatomic/libpod"
 KEYWORDS=""
 
 if [[ ${PV} == *9999* ]]; then
-    EGIT_REPO_URI="${HOMEPAGE}.git"
-    EGIT_CHECKOUT_DIR=${S}
-    inherit git-r3
+	EGIT_REPO_URI="${HOMEPAGE}.git"
+	EGIT_CHECKOUT_DIR=${S}
+	inherit git-r3
 else
-    SRC_URI="${HOMEPAGE}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-    KEYWORDS="~amd64"
+	SRC_URI="${HOMEPAGE}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	KEYWORDS="~amd64"
 fi
 
 LICENSE="Apache-2.0"
@@ -32,25 +32,27 @@ COMMON_DEPEND=">=app-crypt/gpgme-1.8.0:=
 	>=dev-libs/libassuan-2.4.3
 	btrfs? ( >=sys-fs/btrfs-progs-4.10.2 )
 	lvm? ( >=sys-fs/lvm2-2.02.145-r2 )
-    seccomp? ( sys-libs/libseccomp )
+	seccomp? ( sys-libs/libseccomp )
 	selinux? ( sys-libs/libselinux )
+	selinux? ( sec-policy/selinux-virt )
 "
 DEPEND="${COMMON_DEPEND}
-dev-go/go-md2man
-dev-libs/glib
+	dev-go/go-md2man
+	dev-libs/glib
 "
 RDEPEND="${COMMON_DEPEND}
-app-emulation/skopeo
-app-emulation/buildah[seccomp?]
-app-emulation/runc[seccomp?] 
-app-emulation/conmon
-app-emulation/atomic-registries
-net-misc/cni-plugins
-net-firewall/iptables[conntrack,nftables]
+	app-emulation/skopeo
+	app-emulation/buildah[seccomp?]
+	app-emulation/runc[seccomp?]
+	app-emulation/conmon
+	app-emulation/atomic-registries
+	net-misc/cni-plugins
+	net-firewall/iptables[conntrack,nftables]
 "
 
-PATCHES=
-
+PATCHES=(
+	"${FILESDIR}"/01_selinuxwomcs.patch
+)
 
 RESTRICT="test"
 
@@ -72,7 +74,7 @@ src_compile() {
 	fi
 	if [[ ${PV} == *9999* ]]; then
         COMMIT="$(git rev-parse --short HEAD)"
-    fi
+	fi
 
 	set -- env GOPATH="${WORKDIR}/${P}" \
 		go build -ldflags "-X main.gitCommit=${COMMIT} -X main.buildInfo=${BUILD_INFO}" \
