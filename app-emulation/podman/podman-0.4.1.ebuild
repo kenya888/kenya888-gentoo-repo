@@ -3,7 +3,7 @@
 
 EAPI=6
 EGO_PN=github.com/projectatomic/libpod
-COMMIT=db6bf9e
+COMMIT=b51d327
 inherit golang-vcs-snapshot bash-completion-r1
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
