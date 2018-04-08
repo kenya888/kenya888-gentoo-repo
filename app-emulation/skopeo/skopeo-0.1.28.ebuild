@@ -4,7 +4,7 @@
 EAPI=6
 EGO_PN=github.com/projectatomic/skopeo
 COMMIT=0270e56
-inherit golang-vcs-snapshot
+inherit golang-vcs-snapshot bash-completion-r1
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
 
@@ -68,5 +68,6 @@ src_install() {
 	insinto /etc/containers/registries.d
 	doins default.yaml
 	dodir /var/lib/atomic/sigstore
+	dobashcomp completions/bash/skopeo
 	einstalldocs
 }
