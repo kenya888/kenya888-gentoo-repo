@@ -3,7 +3,7 @@
 
 EAPI=6
 EGO_PN=github.com/projectatomic/libpod
-COMMIT=888927a
+COMMIT=dc3f9df
 inherit golang-vcs-snapshot bash-completion-r1
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
@@ -47,7 +47,7 @@ RDEPEND="${COMMON_DEPEND}
 	app-emulation/conmon
 	app-emulation/atomic-registries
 	net-misc/cni-plugins
-	net-firewall/iptables[conntrack,nftables]
+	net-firewall/iptables[conntrack]
 "
 
 PATCHES=(

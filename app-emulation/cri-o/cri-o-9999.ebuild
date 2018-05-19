@@ -43,7 +43,7 @@ RDEPEND="${COMMON_DEPEND}
 seccomp? ( app-emulation/runc[seccomp?] )
 =app-emulation/conmon-${PV}
 app-emulation/skopeo
-net-firewall/iptables[conntrack,nftables]
+net-firewall/iptables[conntrack]
 net-firewall/conntrack-tools
 sys-apps/iproute2
 app-emulation/cri-tools
