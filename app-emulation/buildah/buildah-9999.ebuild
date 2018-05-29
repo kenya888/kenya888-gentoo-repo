@@ -3,7 +3,7 @@
 
 EAPI=6
 EGO_PN=github.com/projectatomic/buildah
-COMMIT=82529cd
+COMMIT=1ab80bc
 inherit golang-vcs-snapshot
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
