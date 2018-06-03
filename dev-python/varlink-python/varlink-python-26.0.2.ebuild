@@ -10,6 +10,8 @@ DESCRIPTION="Python implementation of the Varlink protocol"
 HOMEPAGE="https://varlink.org/python/"
 SRC_URI=""
 
+KEYWORDS=""
+
 S="${WORKDIR}/python-${PV}"
 
 if [[ ${PV} == *9999* ]]; then
@@ -23,7 +25,6 @@ fi
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="
