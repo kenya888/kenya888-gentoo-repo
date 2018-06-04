@@ -3,8 +3,8 @@
 
 EAPI=6
 EGO_PN=github.com/projectatomic/libpod
-COMMIT=1f2e2a2
-inherit golang-vcs-snapshot bash-completion-r1
+COMMIT=3e0ff12
+inherit golang-vcs-snapshot bash-completion-r1 systemd
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
 
@@ -35,6 +35,7 @@ COMMON_DEPEND=">=app-crypt/gpgme-1.8.0:=
 	seccomp? ( sys-libs/libseccomp )
 	selinux? ( sys-libs/libselinux )
 	selinux? ( sec-policy/selinux-virt )
+	dev-libs/libvarlink
 "
 DEPEND="${COMMON_DEPEND}
 	dev-go/go-md2man
@@ -77,13 +78,27 @@ src_compile() {
 	fi
 
 	set -- env GOPATH="${WORKDIR}/${P}" \
+		go generate ./cmd/podman/varlink/...
+
+	echo "$@"
+	"$@" || die
+
+	set -- env GOPATH="${WORKDIR}/${P}" \
+		go generate ./docs/...
+
+	echo "$@"
+	"$@" || die
+
+	set -- env GOPATH="${WORKDIR}/${P}" \
 		go build -ldflags "-X main.gitCommit=${COMMIT} -X main.buildInfo=${BUILD_INFO}" \
 		-gcflags "${GOGCFLAGS}" -tags "${BUILDTAGS}" \
 		-o podman ./cmd/podman
+
 	echo "$@"
 	"$@" || die
+
 	cd docs
-	for f in *.1.md; do
+	for f in *.{1,5}.md; do
 		go-md2man -in ${f} -out ${f%%.md} || die
 	done
 }
@@ -96,7 +111,9 @@ src_install() {
 	doins libpod.conf
 	insinto /etc/cni/net.d
 	doins cni/87-podman-bridge.conflist
+	systemd_dotmpfilesd contrib/varlink/podman.conf
+	systemd_dounit contrib/varlink/io.projectatomic.podman.service contrib/varlink/io.projectatomic.podman.socket
 	dobashcomp completions/bash/podman
-	doman docs/*.1
+	doman docs/*.1 docs/*.5
 	einstalldocs
 }
